@@ -1,32 +1,23 @@
 #include "monty.h"
-void (*get_op_code(char *op))(stack_t**, unsigned int);
+void (*get_op_code(char *op))(stack_t **, unsigned int);
 int execute_monty(FILE *f);
 int check_line(char *line, char *dlmtrs);
 /**
  * get_op_code - get opcode
  * @op: opcode
  * Return: void
-*/
-void (*get_op_code(char *op))(stack_t**, unsigned int)
+ */
+void (*get_op_code(char *op))(stack_t **, unsigned int)
 {
 	size_t ndx;
 
-	opcodes_t code_op[] = {
-		{"push", opcode_push}, {"pall", opcode_pall},
-		{"pint", opcode_pint}, {"pop", opcode_pop},
-		{"swap", opcode_swap}, {"add", opcode_add},
-		{"nop", opcode_nop}, {"div", opcode_div},
-		{"pchar", opcode_pchar}, {"pstr", opcode_pstr},
-		{"stack", opcode_stack}, {"queue", opcode_queue},
-		{"sub", opcode_sub}, {"mul", opcode_mul},
-		{"rotr", opcode_rotr}, {"rotl", opdoce_rotl},
-		{"mod", opcode_mod}, {NULL, NULL}
-	};
+	instruction_t code_op[] = {
+		{"push", opcode_push}, {"pall", opcode_pall}, {"pint", opcode_pint}, {"pop", opcode_pop}, {"swap", opcode_swap}, {"add", opcode_add}, {"nop", opcode_nop}, {"div", opcode_div}, {"pchar", opcode_pchar}, {"pstr", opcode_pstr}, {"stack", opcode_stack}, {"queue", opcode_queue}, {"sub", opcode_sub}, {"mul", opcode_mul}, {"rotr", opcode_rotr}, {"rotl", opdoce_rotl}, {"mod", opcode_mod}, {NULL, NULL}};
 	for (ndx = 0; code_op[ndx].op; ndx++)
 	{
 		if (strcmp(op, code_op[ndx].op) == 0)
 		{
-			return (code_op[ndx].func);
+			return (code_op[ndx].f);
 		}
 	}
 	return (NULL);
@@ -35,14 +26,14 @@ void (*get_op_code(char *op))(stack_t**, unsigned int)
  * execute_monty - execute monty
  * @f: file to open
  * Return: exit success, exit failure
-*/
+ */
 int execute_monty(FILE *f)
 {
 	stack_t *stk_que = NULL;
 	char *line = NULL;
 	size_t lngth = 0, exitcode = EXIT_SUCCESS;
 	unsigned int nth_line = 0, prev_lngth = 0;
-	void (*code_op)(stack_t**, unsigned int);
+	void (*code_op)(stack_t **, unsigned int);
 
 	if (get_stk_que(&stk_que) == EXIT_FAILURE)
 	{
@@ -54,12 +45,12 @@ int execute_monty(FILE *f)
 		optkns = strtow(line, DLMTRS);
 		if (optkns == NULL)
 		{
-			if (is_line_empty(line, DLMTRS))
+			if (pint_empty(line, DLMTRS))
 			{
 				continue;
 			}
-			free_stk(&stk_que);
-			return (malloc_error());
+			set_free(&stk_que);
+			return (malloc_failed());
 		}
 		else if (optkns[0][0] == '#')
 		{
@@ -70,7 +61,7 @@ int execute_monty(FILE *f)
 		if (code_op == NULL)
 		{
 			free_stk(&stk_que);
-			exitcode = err_unkwn_op(optkns[0], nth_line);
+			exitcode = unknown_opcode(optkns[0], nth_line);
 			free_tkns();
 			break;
 		}
@@ -91,11 +82,11 @@ int execute_monty(FILE *f)
 		}
 		free_tkns();
 	}
-	free_stk_que(&stk_que);
+	set_free(&stk_que);
 	if (line && *line == 0)
 	{
 		free(line);
-		return (malloc_error());
+		return (malloc_failed());
 	}
 	free(line);
 	return (exitcode);
@@ -105,7 +96,7 @@ int execute_monty(FILE *f)
  * @line: line
  * @dlmtrs: string of delimiters
  * Return: return -1 for delimiters, else return 0
-*/
+ */
 int check_line(char *line, char *dlmtrs)
 {
 	int ndx, idx;
