@@ -4,7 +4,7 @@
  * @argc: argument count
  * @argv: argument vector
  * Return: exit failure or exit success
-*/
+ */
 int main(int argc, char **argv)
 {
 	FILE *f = fopen(argv[1], "r");
@@ -16,7 +16,7 @@ int main(int argc, char **argv)
 	}
 	if (f == NULL)
 	{
-		return (f_open_error(argv[1]));
+		return (cant_open(argv[1]));
 	}
 	fclose(f);
 	return (exitcode);
