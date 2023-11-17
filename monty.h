@@ -54,12 +54,12 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-typedef struct
+/**typedef struct
 {
 	char *op;
 
 	op_code func;
-} opcodes_t;
+} opcodes_t;*/
 
 typedef int (*op_code)(stack_t **, unsigned int);
 
