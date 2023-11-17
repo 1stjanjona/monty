@@ -32,7 +32,7 @@ int optkns_count;
  *
  * Description: doubly linked list node structure
  * for stack, queues, LIFO, FIFO
-*/
+ */
 typedef struct stack_s
 {
 	int n;
@@ -47,7 +47,7 @@ typedef struct stack_s
  *
  * Description: opcode and its function
  * for stack, queues, LIFO, FIFO
-*/
+ */
 typedef struct instruction_s
 {
 	char *opcode;
@@ -62,7 +62,6 @@ typedef struct
 } opcodes_t;
 
 typedef int (*op_code)(stack_t **, unsigned int);
-op_code get_op_code(char *opcode);
 
 int cant_pchar(unsigned int nth_line, char *output);
 int unknown_opcode(unsigned int nth_line, char *opcode);
@@ -86,7 +85,7 @@ int get_stk_que(stack_t **stk_que);
 int is_stack_queue(stack_t *stk_que);
 void set_free(stack_t **stk_que);
 
-void (*get_op_code(char *op))(stack_t**, unsigned int);
+void (*get_op_code(char *op))(stack_t **, unsigned int);
 int execute_monty(FILE *f);
 int check_line(char *line, char *dlmtrs);
 
@@ -98,6 +97,6 @@ void opcode_add(stack_t **stk_que, unsigned int nth_line);
 void opcode_sub(stack_t **stk_que, unsigned int nth_line);
 void opcode_mul(stack_t **stk_que, unsigned int nth_line);
 void opcode_div(stack_t **stk_que, unsigned int nth_line);
-void opcode_mod(stack_t ** stk_que, unsigned int nth_line);
+void opcode_mod(stack_t **stk_que, unsigned int nth_line);
 
 #endif /* MONTY_H */
