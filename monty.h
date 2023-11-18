@@ -99,4 +99,16 @@ void opcode_mul(stack_t **stk_que, unsigned int nth_line);
 void opcode_div(stack_t **stk_que, unsigned int nth_line);
 void opcode_mod(stack_t **stk_que, unsigned int nth_line);
 
+void opcode_nop(stack_t **top, unsigned int nth_line);
+void opcode_pchar(stack_t **top, unsigned int nth_line);
+void opcode_pstr(stack_t **top, unsigned int nth_line);
+void opcode_rotl(stack_t **top, unsigned int nth_line);
+void opcode_rotr(stack_t **top, unsigned int nth_line);
+
+int wordlngth(char *str, char *dlmtrs);
+int wordcount(char *str, char *dlmtrs);
+char *nextword(char *str, char *dlmtrs);
+int check_dlmtrs(char chr, char *dlmtrs);
+char **strtoword(char *str, char *dlmtrs);
+
 #endif /* MONTY_H */

@@ -8,16 +8,25 @@ int check_line(char *line, char *dlmtrs);
  * get_op_code - get opcode
  * @op: opcode
  * Return: void
- */
+*/
 void (*get_op_code(char *op))(stack_t **, unsigned int)
 {
 	size_t ndx;
 
 	instruction_t code_op[] = {
-		{"push", handle_push}, {"pall", handle_pall}, {"pint", handle_pint}, {"pop", handle_pop}, {"swap", handle_swap}, {"add", opcode_add}, {"nop", opcode_nop}, {"div", opcode_div}, {"pchar", opcode_pchar}, {"pstr", opcode_pstr}, {"stack", opcode_stack}, {"queue", opcode_queue}, {"sub", opcode_sub}, {"mul", opcode_mul}, {"rotr", opcode_rotr}, {"rotl", opdoce_rotl}, {"mod", opcode_mod}, {NULL, NULL}};
-	for (ndx = 0; code_op[ndx].op; ndx++)
+		{"push", handle_push}, {"pall", handle_pall},
+		{"pint", handle_pint}, {"pop", handle_pop},
+		{"swap", handle_swap}, {"add", opcode_add},
+		{"nop", opcode_nop}, {"div", opcode_div},
+		{"pchar", opcode_pchar}, {"pstr", opcode_pstr},
+		{"stack", opcode_stack}, {"queue", opcode_queue},
+		{"sub", opcode_sub}, {"mul", opcode_mul},
+		{"rotr", opcode_rotr}, {"rotl", opdoce_rotl},
+		{"mod", opcode_mod}, {NULL, NULL}
+	};
+	for (ndx = 0; code_op[ndx].f; ndx++)
 	{
-		if (strcmp(op, code_op[ndx].op) == 0)
+		if (strcmp(op, code_op[ndx].f) == 0)
 		{
 			return (code_op[ndx].f);
 		}
@@ -28,7 +37,7 @@ void (*get_op_code(char *op))(stack_t **, unsigned int)
  * execute_monty - execute monty
  * @f: file to open
  * Return: exit success, exit failure
- */
+*/
 int execute_monty(FILE *f)
 {
 	stack_t *stk_que = NULL;
@@ -44,7 +53,7 @@ int execute_monty(FILE *f)
 	while (getline(&line, &lngth, f) != -1)
 	{
 		nth_line++;
-		optkns = strtow(line, DLMTRS);
+		optkns = strtoword(line, DLMTRS);
 		if (optkns == NULL)
 		{
 			if (pint_empty(line, DLMTRS))
@@ -62,7 +71,7 @@ int execute_monty(FILE *f)
 		code_op = get_op_code(optkns[0]);
 		if (code_op == NULL)
 		{
-			free_stk(&stk_que);
+			set_free(&stk_que);
 			exitcode = unknown_opcode(optkns[0], nth_line);
 			free_tkns();
 			break;
@@ -98,7 +107,7 @@ int execute_monty(FILE *f)
  * @line: line
  * @dlmtrs: string of delimiters
  * Return: return -1 for delimiters, else return 0
- */
+*/
 int check_line(char *line, char *dlmtrs)
 {
 	int ndx, idx;

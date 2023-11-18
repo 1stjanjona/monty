@@ -39,7 +39,7 @@ void err_optkns(int err)
 		tkns[ndx] = optkns[ndx];
 		ndx++;
 	}
-	exitcode = atoi(err);
+	exitcode = err;
 	if (!exitcode)
 	{
 		free(tkns), tkns = NULL;
