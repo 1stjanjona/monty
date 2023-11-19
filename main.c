@@ -7,17 +7,19 @@
  */
 int main(int argc, char **argv)
 {
-	FILE *f = fopen(argv[1], "r");
-	int exitcode = execute_monty(f);
+	FILE *f = NULL;
+	int exitcode = EXIT_SUCCESS;
 
 	if (argc != 2)
 	{
 		return (monty_file());
 	}
+	f = fopen(argv[1], "r");
 	if (f == NULL)
 	{
 		return (cant_open(argv[1]));
 	}
+	exitcode = execute_monty(f);
 	fclose(f);
 	return (exitcode);
 }
