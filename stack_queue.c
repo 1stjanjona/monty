@@ -21,7 +21,6 @@ int get_stk_que(stack_t **stk_que)
 	stack->n = STACK;
 	stack->prev = NULL;
 	stack->next = NULL;
-
 	*stk_que = stack;
 	return (EXIT_SUCCESS);
 }
@@ -46,18 +45,22 @@ int is_stack_queue(stack_t *stk_que)
 }
 /**
  * set_free - free stack
- * @stk_que: stack or queue
+ * @stk_que: top of stack
  * Return: no return
 */
 void set_free(stack_t **stk_que)
 {
 	stack_t *pass = *stk_que;
 
+	if (!stk_que || *stk_que)
+	{
+		return;
+	}
 	while (*stk_que)
 	{
-		pass = (*stk_que)->next;
-		free(stk_que), stk_que = NULL;
-		*stk_que = pass;
+		(*stk_que) = (*stk_que)->next;
+		free(pass);
+		pass = NULL;
 	}
 }
 /**

@@ -21,5 +21,6 @@ int main(int argc, char **argv)
 	}
 	exitcode = execute_monty(f);
 	fclose(f);
+	free_tkns();
 	return (exitcode);
 }
