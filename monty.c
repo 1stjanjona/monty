@@ -3,13 +3,14 @@
 #include <stdio.h>
 void (*get_op_code(char *op))(stack_t **, unsigned int);
 int execute_monty(FILE *f);
-int check_line(char *line, char *dlmtrs);
+int check_line(char **line, size_t *lngth, FILE *f, char *dlmtrs);
+int str_empty(char *line);
 /**
  * get_op_code - get opcode
  * @op: opcode
  * Return: void
 */
-void (*get_op_code(char *op))(stack_t **, unsigned int)
+void (*get_op_code(char *opcode))(stack_t **, unsigned int)
 {
 	size_t ndx;
 
@@ -21,12 +22,12 @@ void (*get_op_code(char *op))(stack_t **, unsigned int)
 		{"pchar", opcode_pchar}, {"pstr", opcode_pstr},
 		{"stack", opcode_stack}, {"queue", opcode_queue},
 		{"sub", opcode_sub}, {"mul", opcode_mul},
-		{"rotr", opcode_rotr}, {"rotl", opdoce_rotl},
+		{"rotr", opcode_rotr}, {"rotl", opcode_rotl},
 		{"mod", opcode_mod}, {NULL, NULL}
 	};
-	for (ndx = 0; code_op[ndx].f; ndx++)
+	for (ndx = 0; code_op[ndx].opcode; ndx++)
 	{
-		if (strcmp(op, code_op[ndx].f) == 0)
+		if (strcmp(opcode, code_op[ndx].opcode) == 0)
 		{
 			return (code_op[ndx].f);
 		}
@@ -50,13 +51,13 @@ int execute_monty(FILE *f)
 	{
 		return (EXIT_FAILURE);
 	}
-	while (getline(&line, &lngth, f) != -1)
+	while (get_int(line, &lngth, f) != NULL)
 	{
 		nth_line++;
 		optkns = strtoword(line, DLMTRS);
 		if (optkns == NULL)
 		{
-			if (pint_empty(line, DLMTRS))
+			if (check_line(&line, &lngth, f, DLMTRS))
 			{
 				continue;
 			}
@@ -105,18 +106,24 @@ int execute_monty(FILE *f)
 /**
  * check_line - check line
  * @line: line
+ * @lngth: length
+ * @f: file
  * @dlmtrs: string of delimiters
  * Return: return -1 for delimiters, else return 0
 */
-int check_line(char *line, char *dlmtrs)
+int check_line(char **line, size_t *lngth, FILE *f, char *dlmtrs)
 {
 	int ndx, idx;
 
-	for (idx = 0; line[idx]; idx++)
+	if (get_int(*line, lngth, f) == NULL)
+	{
+		return (-1);
+	}
+	for (idx = 0; (*line)[idx]; idx++)
 	{
 		for (ndx = 0; dlmtrs[ndx]; ndx++)
 		{
-			if (line[idx] == dlmtrs[ndx])
+			if ((*line)[idx] == dlmtrs[ndx])
 			{
 				break;
 			}
@@ -125,6 +132,23 @@ int check_line(char *line, char *dlmtrs)
 		{
 			return (0);
 		}
+	}
+	return (1);
+}
+/**
+ * str_empty - check if str is empty
+ * @line: line
+ * Return: return 1 for empty, otherwise return 0
+*/
+int str_empty(char *line)
+{
+	while (*line)
+	{
+		if (!isspace((unsigned char)*line))
+		{
+			return (0);
+		}
+		line++;
 	}
 	return (1);
 }

@@ -1,7 +1,9 @@
+#include <stdio.h>
 #include "monty.h"
 unsigned int arr_tkns_lngth(void);
 void err_optkns(int err);
 void free_tkns(void);
+char *itoa(int num);
 /**
  * arr_tkns_lngth - get length of optkns
  *
@@ -19,7 +21,9 @@ unsigned int arr_tkns_lngth(void)
 }
 /**
  * err_optkns - error code
- * @err: optkns integer
+ * @err_str: error string
+ * @lngth: length of err_str
+ * @f_ptr: file
  * Return: no return
 */
 void err_optkns(int err)
@@ -39,7 +43,7 @@ void err_optkns(int err)
 		tkns[ndx] = optkns[ndx];
 		ndx++;
 	}
-	exitcode = err;
+	exitcode = itoa(err);
 	if (!exitcode)
 	{
 		free(tkns), tkns = NULL;
@@ -69,4 +73,23 @@ void free_tkns(void)
 		free(optkns[ndx]);
 	}
 	free(optkns);
+}
+/**
+ * itoa - integer to array
+ * @num: number
+ * Return: return string
+*/
+char *itoa(int num)
+{
+	int lngth;
+	char *str;
+
+	lngth = snprintf(NULL, 0, "%d", num);
+	str = malloc(lngth + 1);
+
+	if (str != NULL)
+	{
+		snprintf(str, lngth + 1, "%d", num);
+	}
+	return (str);
 }

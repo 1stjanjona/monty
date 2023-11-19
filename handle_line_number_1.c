@@ -1,6 +1,6 @@
 #include "monty.h"
 int cant_pchar(unsigned int nth_line, char *output);
-int unknown_opcode(unsigned int nth_line, char *opcode);
+int unknown_opcode(char *opcode, unsigned int nth_line);
 int cant_open(char *file_name);
 int monty_file(void);
 int malloc_failed(void);
@@ -21,7 +21,7 @@ int cant_pchar(unsigned int nth_line, char *output)
  * @opcode: opcode postion
  * Return: exit failure
 */
-int unknown_opcode(unsigned int nth_line, char *opcode)
+int unknown_opcode(char *opcode, unsigned int nth_line)
 {
 	fprintf(stderr, "L%u: unknown instruction %s\n", nth_line, opcode);
 	return (EXIT_FAILURE);

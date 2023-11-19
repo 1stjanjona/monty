@@ -2,6 +2,8 @@
 int get_stk_que(stack_t **stk_que);
 int is_stack_queue(stack_t *stk_que);
 void set_free(stack_t **stk_que);
+void opcode_stack(stack_t **stk_que, unsigned int nth_line);
+void opcode_queue(stack_t **stk_que, unsigned int nth_line);
 /**
  * get_stk_que - make a stack or queue
  * @stk_que: stack_t stack
@@ -56,5 +58,35 @@ void set_free(stack_t **stk_que)
 		pass = (*stk_que)->next;
 		free(stk_que), stk_que = NULL;
 		*stk_que = pass;
+	}
+}
+/**
+ * opcode_stack: opcode stack
+ * @stk_que: stack
+ * @nth_line: line number
+ * Return: no return
+*/
+void opcode_stack(stack_t **stk_que, unsigned int nth_line)
+{
+	(void)nth_line;
+
+	if (*stk_que)
+	{
+		(*stk_que)->n = STACK;
+	}
+}
+/**
+ * opcode_queue - opcode queue
+ * @stk_que: queue
+ * @nth_line: line number
+ * Return: no return
+*/
+void opcode_queue(stack_t **stk_que, unsigned int nth_line)
+{
+	(void)nth_line;
+
+	if (*stk_que)
+	{
+		(*stk_que)->n = QUEUE;
 	}
 }
